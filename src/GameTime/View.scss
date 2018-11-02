@@ -1,0 +1,22 @@
+$buttonBackground: #f8993d;
+
+button {
+    width: 120px;
+    height: 30px;
+    font-size: 14/16em;
+    font-weight: 500;
+    background-color: $buttonBackground;
+    border: 1px solid #fff;
+    color: #333;
+    border-radius: 8px;
+    outline: none;
+    margin: 5px 0 0 5px;
+}
+button:hover {
+    background-color: lighten($buttonBackground, 5%);
+}
+
+button.selected {
+    background-color: darken($buttonBackground, 15%);
+    border-color: darken(#fff, 15%);
+}
