@@ -1,7 +1,7 @@
 import './View.scss';
 
 import React from 'react'
-import { Subject, fromEvent, combineLatest, merge, from, interval } from 'rxjs';
+import { Subject, fromEvent, combineLatest, merge, from, concat } from 'rxjs';
 import { map, scan } from 'rxjs/operators';
 
 
@@ -11,8 +11,8 @@ class GameTime extends React.Component {
         this.state = { time: 0, keyCode: '', paused: false };
 
         this.pauseButton = new Subject();
-        this.keyData = fromEvent(window, 'keyup')
-            .pipe(map(e => e.which)); // possibly try concating with an observable from an array of one element
+        this.keyData = concat(from([false]), fromEvent(window, 'keyup'))
+            .pipe(map(e => e.which));
 
         this.paused = merge(this.keyData, this.pauseButton)
             .pipe(scan((paused, value) => {
@@ -53,7 +53,7 @@ class GameTime extends React.Component {
                 <div className={'key--container'}>
                     Key: {this.state.keyCode}
                 </div>
-                <button className={this.state.paused ? 'selected' : '' } onClick={() => { console.log('buttonclick'); this.pauseButton.next(true); }}>
+                <button className={this.state.paused ? 'selected' : '' } onClick={() => this.pauseButton.next(true);}>
                     Pause
                 </button>
             </div>
