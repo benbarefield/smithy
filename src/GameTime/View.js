@@ -1,17 +1,25 @@
 import './View.scss';
 
 import React from 'react'
-import { Subject, fromEvent, combineLatest } from 'rxjs';
+import { Subject, fromEvent, combineLatest, merge, from, interval } from 'rxjs';
 import { map, scan } from 'rxjs/operators';
+
 
 class GameTime extends React.Component {
     constructor(props) {
         super(props);
         this.state = { time: 0, keyCode: '', paused: false };
-        this.keyData = fromEvent(window, 'keydown')
-            .pipe(map(e => e.which));
-        this.paused = this.keyData
-            .pipe(scan((paused, key) => key === 32 ? !paused : paused, false));
+
+        this.pauseButton = new Subject();
+        this.keyData = fromEvent(window, 'keyup')
+            .pipe(map(e => e.which)); // possibly try concating with an observable from an array of one element
+
+        this.paused = merge(this.keyData, this.pauseButton)
+            .pipe(scan((paused, value) => {
+                if(value === true) { return true; }
+                return value === 80 ? !paused : paused
+            }, false));
+
         const timeTracker = new Subject()
             .pipe(scan((time, now) => {
                 return {
@@ -22,6 +30,7 @@ class GameTime extends React.Component {
         this.timeData = combineLatest(timeTracker, this.paused)
             .pipe(scan((time, next) => next[1] ? time : time + next[0].elapsed, 0),
                 map(time => Math.floor(time / 1000)));
+
         this.frame = t => {
             timeTracker.next(t);
             window.requestAnimationFrame(this.frame);
@@ -44,7 +53,7 @@ class GameTime extends React.Component {
                 <div className={'key--container'}>
                     Key: {this.state.keyCode}
                 </div>
-                <button className={this.state.paused ? 'selected' : '' }>
+                <button className={this.state.paused ? 'selected' : '' } onClick={() => { console.log('buttonclick'); this.pauseButton.next(true); }}>
                     Pause
                 </button>
             </div>
