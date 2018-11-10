@@ -53,7 +53,7 @@ class GameTime extends React.Component {
                 <div className={'key--container'}>
                     Key: {this.state.keyCode}
                 </div>
-                <button className={this.state.paused ? 'selected' : '' } onClick={() => this.pauseButton.next(true);}>
+                <button className={this.state.paused ? 'selected' : '' } onClick={() => this.pauseButton.next(true)}>
                     Pause
                 </button>
             </div>
