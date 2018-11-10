@@ -1,4 +1,4 @@
-$buttonBackground: #f8993d;
+$buttonBackground: darken(#f8993d, 10%);
 
 button {
     width: 120px;
@@ -8,7 +8,7 @@ button {
     background-color: $buttonBackground;
     border: 1px solid #fff;
     color: #333;
-    border-radius: 8px;
+    border-radius: 5px;
     outline: none;
     margin: 5px 0 0 5px;
 }
@@ -17,6 +17,6 @@ button:hover {
 }
 
 button.selected {
-    background-color: darken($buttonBackground, 15%);
+    background-color: lighten($buttonBackground, 15%);
     border-color: darken(#fff, 15%);
 }

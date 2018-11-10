@@ -6,6 +6,9 @@ class RxWrapper extends Component {
     }
 }
 
-export default function(observable, wrappedComponent) {
-
+export default function(wrappedComponent, dispatchMap) {
+    let actions = Object.keys(dispatchMap).reduce((actions, k) => {
+        actions[k] = v => dispatchMap[k].next(v);
+        return actions;
+    }, {});
 }

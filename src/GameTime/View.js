@@ -17,6 +17,7 @@ class GameTime extends React.Component {
         this.paused = merge(this.keyData, this.pauseButton)
             .pipe(scan((paused, value) => {
                 if(value === true) { return true; }
+                if(value === false) { return false; }
                 return value === 80 ? !paused : paused
             }, false));
 
@@ -53,8 +54,11 @@ class GameTime extends React.Component {
                 <div className={'key--container'}>
                     Key: {this.state.keyCode}
                 </div>
-                <button className={this.state.paused ? 'selected' : '' } onClick={() => this.pauseButton.next(true)}>
+                <button className={this.state.paused ? 'selected' : ''} onClick={() => this.pauseButton.next(true)}>
                     Pause
+                </button>
+                <button className={this.state.paused ? '' : 'selected'} onClick={() => this.pauseButton.next(false)}>
+                    Normal
                 </button>
             </div>
         );
