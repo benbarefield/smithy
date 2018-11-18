@@ -3,14 +3,6 @@ import './View.scss';
 import React from 'react'
 
 class GameTime extends React.Component {
-    componentDidMount() {
-        const frame = t => {
-            this.props.sinks.timeTracker(t);
-            window.requestAnimationFrame(frame);
-        };
-        window.requestAnimationFrame(frame);
-    }
-
     render() {
         return (
             <div className="container">

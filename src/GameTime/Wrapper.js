@@ -11,8 +11,7 @@ function signalMap(dataMap) {
 
 function sinkMap(dataMap) {
     return {
-        pauseButton: dataMap.subjects.pauseButton,
-        timeTracker: dataMap.subjects.timeTracker
+        pauseButton: dataMap.subjects.pauseButton
     }
 }
 

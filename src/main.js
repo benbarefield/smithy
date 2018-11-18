@@ -6,6 +6,11 @@ import './main.scss';
 import dataObjects from './data/dataObjects';
 
 const dataMap = dataObjects();
+const frame = t => {
+    dataMap.subjects.timeTracker.next(t);
+    window.requestAnimationFrame(frame);
+};
+window.requestAnimationFrame(frame);
 
 render(
     (
