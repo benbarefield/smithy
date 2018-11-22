@@ -19,5 +19,19 @@ export let paused = (subjects, observables) =>
 // required observables: paused
 export let timeData = (subjects, observables) =>
     combineLatest(subjects.timeTracker, observables.paused)
-    .pipe(scan((time, next) => next[1] ? time : time + next[0].elapsed, 0),
-          map(time => Math.floor(time / 1000)));
+    .pipe(scan((time, next) => {
+        return {
+            elapsed: next[1] ? 0 : next[0].elapsed,
+            total: next[1] ? time.total : time.total + next[0].elapsed
+        };
+    }, { elapsed: 0, total: 0 }));
+
+export let season = (subjects, observables) =>
+    observables.timeData
+        .pipe(scan((data, time) =>
+            Object.assign({}, data, {
+                time: data.time - time.elapsed
+        }), {
+            time: 60 * 1000,
+            current: 'summer'
+        }));

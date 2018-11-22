@@ -1,6 +1,8 @@
 import React from 'react';
 
-export default function(WrappedComponent, signalsMap, sinksMap) { //default values?
+const emptyReturn = () => { return {}; };
+
+export default function(WrappedComponent, signalsMap = emptyReturn, sinksMap = emptyReturn) { //default values?
     class RxWrapper extends React.Component {
         constructor(props) {
             super(props);

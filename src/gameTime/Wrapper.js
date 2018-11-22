@@ -3,9 +3,7 @@ import View from './View';
 
 function signalMap(dataMap) {
     return {
-        paused: dataMap.observables.paused,
-        time: dataMap.observables.timeData,
-        keyCode: dataMap.observables.whichKeyUp
+        paused: dataMap.observables.paused
     };
 }
 
