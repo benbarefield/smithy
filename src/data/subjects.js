@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs';
 import { scan } from "rxjs/operators";
 
-export let pauseButton = () => new Subject();
+export let timeButton = () => new Subject();
 
 export let timeTracker = () => new Subject()
     .pipe(scan((time, now) => {

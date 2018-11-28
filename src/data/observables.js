@@ -8,23 +8,24 @@ export let whichKeyUp = (subjects, observables) =>
 
 // required observables: whichKeyUp
 const SPACE_BAR = 32;
-export let paused = (subjects, observables) =>
-    merge(observables.whichKeyUp, subjects.pauseButton)
-    .pipe(scan((paused, value) => {
-        if(value === true) { return true; }
-        if(value === false) { return false; }
-        return value === SPACE_BAR ? !paused : paused
-    }, false));
+export let gameSpeed = (subjects, observables) =>
+    merge(observables.whichKeyUp, subjects.timeButton)
+        .pipe(scan((gameSpeed, subjectValue) => {
+            if(subjectValue === SPACE_BAR) { return gameSpeed === 0 ? 1 : 0; }
+            return subjectValue === 0 ? 0 : (subjectValue || gameSpeed);
+        }, 1));
 
-// required observables: paused
+// required observables: gameSpeed
 export let timeData = (subjects, observables) =>
-    combineLatest(subjects.timeTracker, observables.paused)
-    .pipe(scan((time, next) => {
-        return {
-            elapsed: next[1] ? 0 : next[0].elapsed,
-            total: next[1] ? time.total : time.total + next[0].elapsed
-        };
-    }, { elapsed: 0, total: 0 }));
+    combineLatest(subjects.timeTracker, observables.gameSpeed)
+        .pipe(scan((time, next) => {
+            const speed = (next[1] === null || next[1] === undefined) ? 1 : next[1];
+            const elapsed = next[0].elapsed * speed;
+            return {
+                elapsed,
+                total: time.total + elapsed
+            };
+        }, { elapsed: 0, total: 0 }));
 
 function nextSeason(currentSeason) {
     switch(currentSeason) {
