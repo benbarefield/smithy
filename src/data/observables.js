@@ -1,6 +1,6 @@
 import {combineLatest, concat, from, fromEvent, merge } from "rxjs";
 import {map, scan} from "rxjs/operators";
-import SEASONS from '../constants/seasons';
+import { nextSeason } from '../season/seasons';
 
 export let whichKeyUp = (subjects, observables) =>
     concat(from([false]), fromEvent(window, 'keyup'))
@@ -37,17 +37,3 @@ export let season = (subjects, observables) =>
         }
         return Object.assign({}, data, {time : remaining});
     }, nextSeason()));
-function nextSeason(currentSeasonName) {
-    return {
-        time: 60 * 1000,
-        info: followingSeason(currentSeasonName)
-    };
-}
-function followingSeason(currentSeasonName) {
-    switch(currentSeasonName) {
-        case SEASONS.SPRING.name: return SEASONS.SUMMER;
-        case SEASONS.SUMMER.name: return SEASONS.AUTUMN;
-        case SEASONS.AUTUMN.name: return SEASONS.WINTER;
-        default: return SEASONS.SPRING;
-    }
-}
