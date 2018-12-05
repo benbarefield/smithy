@@ -26,7 +26,7 @@ export let timeData = (subjects, observables) =>
                 elapsed,
                 total: time.total + elapsed
             };
-        }, { elapsed: 0, total: 0 }));
+        }, { elapsed: 0, total: 0 }), share());
 
 // required observables: timeData
 export let season = (subjects, observables) =>
@@ -37,7 +37,7 @@ export let season = (subjects, observables) =>
             return nextSeason(data.info.name);
         }
         return Object.assign({}, data, {time : remaining});
-    }, nextSeason()));
+    }, nextSeason()), share());
 
 export let jobs = (subjects, observables) =>
     combineLatest(observables.season, observables.timeData)
