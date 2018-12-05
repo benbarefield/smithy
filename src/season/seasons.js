@@ -14,8 +14,8 @@ export function nextSeason(currentSeasonName) {
     let nextSeasonInfo = followingSeason(currentSeasonName);
     let jobTimes = new Array(determineNumberOfJobs(nextSeasonInfo));
     let sectionLength = Math.floor(60 * 1000 / jobTimes.length);
-    for(let i = 0; i < jobTimes.length: ++i) {
-        jobTimes[i] = (Math.random() * sectionLength) + (i * sectionLength);
+    for(let i = 0; i < jobTimes.length; ++i) {
+        jobTimes[i] = (Math.random() * sectionLength - 1) + (i * sectionLength) + 1;
     }
     return {
         time: 60 * 1000,
@@ -33,9 +33,11 @@ function followingSeason(currentSeasonName) {
     }
 }
 function determineNumberOfJobs(season) {
-    return Math.random() < 0.25 ? 1 : 0;
+    // return Math.random() < 0.25 ? 1 : 0;
+    return 1;
 }
 
+let JOB_ID = 1;
 const jobGeneratorMap = {
     [seasons.SPRING.name]: springJobGenerator,
     [seasons.SUMMER.name]: summerJobGenerator,
@@ -43,7 +45,13 @@ const jobGeneratorMap = {
     [seasons.WINTER.name]: winterJobGenerator
 };
 function springJobGenerator(statusEffects) {
-    return null;
+    return {
+        type: 'repair',
+        description: 'Fix a Scythe',
+        basePay: 5,
+        timeLimit: 60 * 1000,
+        id: JOB_ID++
+    };
 }
 function summerJobGenerator(statusEffects) {
     return null;
