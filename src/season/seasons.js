@@ -10,18 +10,24 @@ Object.keys(seasons).forEach(k => Object.freeze(seasons[k]));
 
 export let SEASONS = seasons;
 
-export function nextSeason(currentSeasonName) {
+export function nextSeason(currentSeasonName, currentTime = 0) {
     let nextSeasonInfo = followingSeason(currentSeasonName);
     let jobTimes = new Array(determineNumberOfJobs(nextSeasonInfo));
     let sectionLength = Math.floor(60 * 1000 / jobTimes.length);
+    let jobs = [];
     for(let i = 0; i < jobTimes.length; ++i) {
         jobTimes[i] = (Math.random() * sectionLength - 1) + (i * sectionLength) + 1;
+        let newJob = jobGeneratorMap[nextSeasonInfo.name]();
+        if(newJob) {
+            newJob.seasonStartTime = jobTimes[i];
+            newJob.completionTime = (currentTime + ((60 * 1000) - jobTimes[i])) + newJob.timeLimit //jobTimes are from a count down
+            jobs.push(newJob);
+        }
     }
     return {
         time: 60 * 1000,
         info: nextSeasonInfo,
-        jobGenerator: jobGeneratorMap[nextSeasonInfo.name],
-        jobTimes
+        jobs
     };
 }
 function followingSeason(currentSeasonName) {

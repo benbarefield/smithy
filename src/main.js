@@ -7,6 +7,7 @@ import Jobs from './jobs/Wrapper';
 
 import './main.scss';
 import dataObjects from './data/dataObjects';
+import {distinct, map, tap} from "rxjs/operators";
 
 
 const dataMap = dataObjects();
@@ -15,6 +16,13 @@ const frame = t => {
     window.requestAnimationFrame(frame);
 };
 window.requestAnimationFrame(frame);
+
+dataMap.observables.season
+    .pipe(
+        map(season => season.jobs.reduce((currentJob, job) => job.seasonStartTime > season.time ? job : currentJob, null)),
+        distinct()
+    )
+    .subscribe(j => { if(j) dataMap.subjects.addCard.next(j) });
 
 render(
     (

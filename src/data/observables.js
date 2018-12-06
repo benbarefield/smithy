@@ -1,5 +1,5 @@
-import {combineLatest, concat, from, fromEvent, merge } from "rxjs";
-import {map, scan, share} from "rxjs/operators";
+import { combineLatest, concat, from, fromEvent, merge } from "rxjs";
+import { map, scan, share } from "rxjs/operators";
 import { nextSeason } from '../season/seasons';
 
 export let whichKeyUp = (subjects, observables) =>
@@ -34,25 +34,18 @@ export let season = (subjects, observables) =>
     .pipe(scan((data, time) => {
         let remaining = data.time - time.elapsed;
         if(remaining <= 0) {
-            return nextSeason(data.info.name);
+            return nextSeason(data.info.name, time.total);
         }
         return Object.assign({}, data, {time : remaining});
     }, nextSeason()), share());
 
-export let jobs = (subjects, observables) =>
-    combineLatest(observables.season, observables.timeData)
-    .pipe(scan((jobList, [season, gameTime]) => { // happening twice because season ticks and timeData ticks...
-        let nextJobTime = season.jobTimes.find(t => t > season.time && t < season.time + gameTime.elapsed); // season time counts down
-        let nextJobList = jobList.filter(j => j.startTime + j.timeLimit > gameTime.total);
-        if(nextJobTime) {
-            let newJob = season.jobGenerator();
-            if(newJob) {
-                newJob.startTime = gameTime.total;
-                nextJobList.push(newJob);
-            }
+export let cards = (subjects, observables) =>
+    merge(observables.timeData, subjects.addCard) // this will update to a merge
+    .pipe(scan((cards, action) => {
+        if(action.type === 'add')
+            return cards.concat(action.cardData);
+        if(action.total) {
+            return cards.filter(c => c.completionTime >= action.total);
         }
-        return nextJobList;
+        return cards;
     }, []));
-
-// export let jobs2 = (subjects, observables) =>
-

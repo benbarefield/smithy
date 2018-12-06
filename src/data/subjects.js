@@ -1,5 +1,5 @@
-import {Subject} from 'rxjs';
-import {scan} from "rxjs/operators";
+import { Subject } from 'rxjs';
+import { scan, map } from "rxjs/operators";
 
 export let timeButton = () => new Subject();
 
@@ -11,5 +11,6 @@ export let timeTracker = () => new Subject()
         }
     }, { now: 0, elapsed: 0 }));
 
-export let addCard = () => new Subject();
+export let addCard = () => new Subject()
+    .pipe(map(cardData => { return { type: 'add', cardData }; }));
 // export let removeCard = () => new Subject();//??
