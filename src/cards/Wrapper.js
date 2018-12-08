@@ -3,7 +3,7 @@ import CollectionView from './CollectionView';
 
 function signalMap(dataMap) {
     return {
-        jobs: dataMap.observables.cards,
+        cards: dataMap.observables.cards,
         timeData: dataMap.observables.timeData
     };
 }

@@ -20,7 +20,7 @@ export function nextSeason(currentSeasonName, currentTime = 0) {
         let newJob = jobGeneratorMap[nextSeasonInfo.name]();
         if(newJob) {
             newJob.seasonStartTime = jobTimes[i];
-            newJob.completionTime = (currentTime + ((60 * 1000) - jobTimes[i])) + newJob.timeLimit //jobTimes are from a count down
+            newJob.completionTime = (currentTime + ((60 * 1000) - jobTimes[i])) + newJob.timeLimit; //jobTimes are from a count down
             jobs.push(newJob);
         }
     }
@@ -43,7 +43,7 @@ function determineNumberOfJobs(season) {
     return 1;
 }
 
-let JOB_ID = 1;
+let CARD_ID = 1;
 const jobGeneratorMap = {
     [seasons.SPRING.name]: springJobGenerator,
     [seasons.SUMMER.name]: summerJobGenerator,
@@ -52,11 +52,21 @@ const jobGeneratorMap = {
 };
 function springJobGenerator(statusEffects) {
     return {
-        type: 'repair',
+        type: 'job',
+        jobType: 'repair',
+        name: 'Repair job',
         description: 'Fix a Scythe',
         basePay: 5,
         timeLimit: 60 * 1000,
-        id: JOB_ID++
+        id: CARD_ID++,
+        associatedCards: [
+            {
+                id: CARD_ID++,
+                type: 'item',
+                name: 'Damaged Scythe',
+                description: 'Damaged Scythe'
+            }
+        ]
     };
 }
 function summerJobGenerator(statusEffects) {

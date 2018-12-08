@@ -45,7 +45,7 @@ export let cards = (subjects, observables) =>
         if(action.type === 'add')
             return cards.concat(action.cardData);
         if(action.total) {
-            return cards.filter(c => c.completionTime >= action.total);
+            return cards.filter(c => !c.completionTime || c.completionTime >= action.total);
         }
         return cards;
     }, []));

@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 
 import GameTime from './gameTime/Wrapper';
 import Season from './season/Wrapper';
-import Jobs from './jobs/Wrapper';
+import Jobs from './cards/Wrapper';
 
 import './main.scss';
 import dataObjects from './data/dataObjects';
@@ -22,7 +22,12 @@ dataMap.observables.season
         map(season => season.jobs.reduce((currentJob, job) => job.seasonStartTime > season.time ? job : currentJob, null)),
         distinct()
     )
-    .subscribe(j => { if(j) dataMap.subjects.addCard.next(j) });
+    .subscribe(j => {
+        if(j) {
+            dataMap.subjects.addCard.next(j);
+            j.associatedCards.forEach(c => dataMap.subjects.addCard.next(c));
+        }
+    });
 
 render(
     (

@@ -4,7 +4,7 @@ import './JobView.scss';
 
 export default class extends React.Component {
     render() {
-        let { type, description, basePay, completionTime } = this.props.jobData;
+        let { jobType: type, description, basePay, completionTime } = this.props.jobData;
         let timeRemaining = ((completionTime - this.props.timeData.total) / 1000).toFixed(1);
         return (
             <div className={`card job ${type}`}>
