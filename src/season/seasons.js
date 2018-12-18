@@ -57,14 +57,17 @@ function springJobGenerator(statusEffects) {
         name: 'Repair job',
         description: 'Fix a Scythe',
         basePay: 5,
-        timeLimit: 60 * 1000,
+        timeLimit: 120 * 1000,
         id: CARD_ID++,
         associatedCards: [
             {
                 id: CARD_ID++,
                 type: 'item',
-                name: 'Damaged Scythe',
-                description: 'Damaged Scythe'
+                name: 'Scythe',
+                description: 'Scythe',
+                quality: 2,
+                maxQuality: 50,
+                sharpness: 5
             }
         ]
     };

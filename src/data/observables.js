@@ -48,4 +48,4 @@ export let cards = (subjects, observables) =>
             return cards.filter(c => !c.completionTime || c.completionTime >= action.total);
         }
         return cards;
-    }, []));
+    }, []), share());
