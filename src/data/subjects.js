@@ -13,4 +13,8 @@ export let timeTracker = () => new Subject()
 
 export let addCard = () => new Subject()
     .pipe(map(cardData => { return { type: 'add', cardData }; }));
-// export let removeCard = () => new Subject();//??
+export let removeCard = () => new Subject()
+    .pipe(map(cardData => { return { type: 'remove', cardData }; }));
+
+export let selectedCard = () => new Subject()
+    .pipe(scan((selection, clicked) => clicked));
