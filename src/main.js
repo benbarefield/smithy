@@ -4,10 +4,11 @@ import { render } from 'react-dom';
 import GameTime from './gameTime/Wrapper';
 import Season from './season/Wrapper';
 import Jobs from './cards/Wrapper';
+import anvil from './tools/anvilData';
 
 import './main.scss';
 import dataObjects from './data/dataObjects';
-import {distinct, map, tap} from "rxjs/operators";
+import {distinct, map} from "rxjs/operators";
 
 
 const dataMap = dataObjects();
@@ -39,3 +40,5 @@ render(
     ),
     document.getElementById('main')
 );
+
+dataMap.subjects.addCard.next(anvil(dataMap));
