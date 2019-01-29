@@ -1,16 +1,16 @@
 import rxWrapper from '../rxWrapper';
 import View from './ToolView';
 
-function signalMap(dataMap) {
+function signalMap() {
     return {
-        toolData: dataMap.observable
+        // toolData: dataMap.observable
     };
 }
 
-function sinkMap(dataMap) {
+function sinkMap() {
     return {
-        sink: dataMap.sink
+        // sink: dataMap.sink
     };
 }
 
-export default rxWrapper(View, signalMap, sinkMap);
+export default rxWrapper(View, [], signalMap, sinkMap);

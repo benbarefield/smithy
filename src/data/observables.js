@@ -2,14 +2,14 @@ import { combineLatest, concat, from, fromEvent, merge } from "rxjs";
 import { map, scan, share } from "rxjs/operators";
 import { nextSeason } from '../season/seasons';
 
-export let whichKeyUp = (subjects, observables) =>
+export let whichKeyUp = () =>
     concat(from([false]), fromEvent(window, 'keyup'))
         .pipe(map(e => e.which), share());
 
 // required observables: whichKeyUp
 const SPACE_BAR = 32;
-export let gameSpeed = (subjects, observables) =>
-    merge(observables.whichKeyUp, subjects.timeButton)
+export let gameSpeed = dataMap =>
+    merge(dataMap.whichKeyUp, dataMap.timeButton)
         .pipe(scan((gameSpeed, subjectValue) => {
             if(subjectValue && subjectValue.speed !== undefined) { return subjectValue.speed; }
             if(subjectValue === SPACE_BAR) { return gameSpeed === 0 ? 1 : 0; }
@@ -17,8 +17,8 @@ export let gameSpeed = (subjects, observables) =>
         }, 1), share());
 
 // required observables: gameSpeed
-export let timeData = (subjects, observables) =>
-    combineLatest(subjects.timeTracker, observables.gameSpeed)
+export let timeData = dataMap =>
+    combineLatest(dataMap.timeTracker, dataMap.gameSpeed)
         .pipe(scan((time, [timeData, gameSpeed]) => {
             const speed = (gameSpeed === null || gameSpeed === undefined) ? 1 : gameSpeed;
             const elapsed = timeData.elapsed * speed;
@@ -29,8 +29,8 @@ export let timeData = (subjects, observables) =>
         }, { elapsed: 0, total: 0 }), share());
 
 // required observables: timeData
-export let season = (subjects, observables) =>
-    observables.timeData
+export let season = dataMap =>
+    dataMap.timeData
     .pipe(scan((data, time) => {
         let remaining = data.time - time.elapsed;
         if(remaining <= 0) {
@@ -39,8 +39,8 @@ export let season = (subjects, observables) =>
         return Object.assign({}, data, {time : remaining});
     }, nextSeason()), share());
 
-export let cards = (subjects, observables) =>
-    merge(observables.timeData, subjects.addCard) // this will update to a merge
+export let cards = dataMap =>
+    merge(dataMap.timeData, dataMap.addCard) // this will update to a merge
     .pipe(scan((cards, action) => {
         if(action.type === 'add')
             return cards.concat(action.cardData);

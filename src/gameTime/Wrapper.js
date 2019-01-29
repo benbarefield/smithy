@@ -1,16 +1,12 @@
 import rxWrapper from "../rxWrapper";
 import View from './View';
 
-function signalMap(dataMap) {
-    return {
-        gameSpeed: dataMap.observables.gameSpeed
-    };
+function signalMap(gameSpeed) {
+    return { gameSpeed };
 }
 
-function sinkMap(dataMap) {
-    return {
-        timeButton: dataMap.subjects.timeButton
-    }
+function sinkMap(gameSpeed, timeButton) {
+    return { timeButton };
 }
 
-export default rxWrapper(View, signalMap, sinkMap)
+export default rxWrapper(View, ['gameSpeed', 'timeButton'], signalMap, sinkMap)
