@@ -16,7 +16,8 @@ export function nextSeason(currentSeasonName, currentTime = 0) {
     let sectionLength = Math.floor(60 * 1000 / jobTimes.length);
     let jobs = [];
     for(let i = 0; i < jobTimes.length; ++i) {
-        jobTimes[i] = (Math.random() * sectionLength - 1) + (i * sectionLength) + 1;
+        // jobTimes[i] = (Math.random() * sectionLength - 1) + (i * sectionLength) + 1;
+        jobTimes[i] = 59000;
         let newJob = jobGeneratorMap[nextSeasonInfo.name]();
         if(newJob) {
             newJob.seasonStartTime = jobTimes[i];

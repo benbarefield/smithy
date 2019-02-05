@@ -9,9 +9,15 @@ import {map, distinct} from "rxjs/operators";
 // import anvil from './tools/anvilData';
 
 class Game extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.appClicked = () => this.props.sinks.select(null);
+    }
+
     render() {
         return (
-            <div className='game'>
+            <div className='game' onClick={this.appClicked}>
                 <Season/>
                 <GameTime/>
                 <Jobs/>
@@ -45,6 +51,7 @@ function signalMap(timeTracker, season, addCard, addToDataMap) {
 }
 
 export default rxWrapper(Game,
-    ['timeTracker', 'season', 'addCard', 'addToDataMap'],
-    signalMap
+    ['timeTracker', 'season', 'addCard', 'addToDataMap', 'selectedCard'],
+    signalMap,
+    (tt, s, ac, atdm, selectedCard) => ({select: selectedCard})
 );
