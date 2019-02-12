@@ -4,6 +4,10 @@ import {merge} from "rxjs";
 import {scan} from "rxjs/operators";
 
 const ANVIL_NAME = 'Anvil';
+const ANVIL_CARD = {
+    name: ANVIL_NAME,
+    description: "An anvil",
+};
 
 class View extends React.Component {
     constructor(props) {
@@ -29,7 +33,7 @@ function selected(e) {
     if(this.props.selectedCard) {
         this.props.sinks.anvil({ processingCards: [this.props.selectedCard] });
     }
-    this.props.sinks.select({name: ANVIL_NAME});
+    this.props.sinks.select(ANVIL_CARD);
 }
 
 function signalMap(anvil, timeData, selectedCard) {

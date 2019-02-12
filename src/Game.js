@@ -3,6 +3,7 @@ import GameTime from './gameTime/Wrapper';
 import Season from './season/Wrapper';
 import Jobs from './cards/Wrapper';
 import Anvil from './tools/Anvil';
+import DetailsView from './details/DetailsView';
 import rxWrapper from "./rxWrapper";
 import { Subject } from 'rxjs';
 import {map, distinct} from "rxjs/operators";
@@ -21,6 +22,7 @@ class Game extends React.Component {
                 <GameTime/>
                 <Jobs/>
                 <Anvil/>
+                <DetailsView/>
             </div>
         );
     }

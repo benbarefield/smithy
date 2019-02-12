@@ -1,0 +1,23 @@
+.card--details {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 300px;
+    min-height: 80px;
+    box-sizing: border-box;
+    padding: 8px;
+    background-color: #eeecdb;
+    border: 1px solid #aaa;
+    color: #333;
+}
+
+.job--pay {
+    span {
+        vertical-align: top;
+    }
+
+    .job--pay__value {
+        color: #ada205;
+        margin-right: 4px;
+    }
+}

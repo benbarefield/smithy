@@ -1,3 +1,5 @@
+import * as cardTypes from '../cards/constants';
+
 const seasons = {
     'SPRING': { name: 'Spring', className: 'spring' },
     'SUMMER': { name: 'Summer', className: 'summer' },
@@ -16,12 +18,12 @@ export function nextSeason(currentSeasonName, currentTime = 0) {
     let sectionLength = Math.floor(60 * 1000 / jobTimes.length);
     let jobs = [];
     for(let i = 0; i < jobTimes.length; ++i) {
-        // jobTimes[i] = (Math.random() * sectionLength - 1) + (i * sectionLength) + 1;
+        // jobTimes[i] = (Math.random() * sectionLength - 1) + (i * sectionLength) + 1; TODO: testing
         jobTimes[i] = 59000;
         let newJob = jobGeneratorMap[nextSeasonInfo.name]();
         if(newJob) {
             newJob.seasonStartTime = jobTimes[i];
-            newJob.completionTime = (currentTime + ((60 * 1000) - jobTimes[i])) + newJob.timeLimit; //jobTimes are from a count down
+            newJob.completionTime = (currentTime + ((60 * 1000) - jobTimes[i])) + newJob.timeLimit; //jobTimes are calculated from a count down
             jobs.push(newJob);
         }
     }
@@ -40,7 +42,7 @@ function followingSeason(currentSeasonName) {
     }
 }
 function determineNumberOfJobs(season) {
-    // return Math.random() < 0.25 ? 1 : 0;
+    // return Math.random() < 0.25 ? 1 : 0; // TODO: testing
     return 1;
 }
 
@@ -53,7 +55,7 @@ const jobGeneratorMap = {
 };
 function springJobGenerator(statusEffects) {
     return {
-        type: 'job',
+        type: cardTypes.CARD_TYPE_JOB,
         jobType: 'repair',
         name: 'Repair job',
         description: 'Fix a Scythe',
@@ -63,7 +65,7 @@ function springJobGenerator(statusEffects) {
         associatedCards: [
             {
                 id: CARD_ID++,
-                type: 'item',
+                type: cardTypes.CARD_TYPE_ITEM,
                 name: 'Scythe',
                 description: 'Scythe',
                 quality: 2,
