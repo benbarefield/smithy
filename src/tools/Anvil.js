@@ -3,11 +3,20 @@ import rxWrapper from '../rxWrapper';
 import {merge} from "rxjs";
 import {scan} from "rxjs/operators";
 
+const ANVIL_NAME = 'Anvil';
+
 class View extends React.Component {
+    constructor(props) {
+        super(props);
+        this.selected = selected.bind(this);
+    }
+
     render() {
-        const time = this.props.toolData ? this.props.toolData.processingTime : 0;
+        let time = this.props.toolData ? this.props.toolData.processingTime : 0;
+        time = Math.round(time / 100) / 10;
+        const selected = this.props.selectedCard && this.props.selectedCard.name === ANVIL_NAME ? 'selected' : '';
         return (
-            <div className={`card item`}>
+            <div className={`card item ${selected}`} onClick={this.selected}>
                 <div className={'card--icon'}>Anvil</div>
                 {time > 0 ? <div className={'card--timer'}>{`${time}s`}</div> : null}
             </div>
@@ -15,7 +24,15 @@ class View extends React.Component {
     }
 }
 
-function signalMap(anvil, timeData) {
+function selected(e) {
+    e.stopPropagation();
+    if(this.props.selectedCard) {
+        this.props.sinks.anvil({ processingCards: [this.props.selectedCard] });
+    }
+    this.props.sinks.select({name: ANVIL_NAME});
+}
+
+function signalMap(anvil, timeData, selectedCard) {
     return {
         toolData: merge(anvil, timeData).pipe(
             scan((toolData, next) => {
@@ -41,7 +58,8 @@ function signalMap(anvil, timeData) {
             }, {
                 processingTime: 0
             })
-        )
+        ),
+        selectedCard
     };
 }
 function processCard(card) {
@@ -54,7 +72,7 @@ function processCard(card) {
 }
 
 export default rxWrapper(View,
-    ['anvil', 'timeData'],
+    ['anvil', 'timeData', 'selectedCard'],
     signalMap,
-    anvil => ({anvil})
+    (anvil, timeData, selectedCard) => ({anvil, select: selectedCard})
 );

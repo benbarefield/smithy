@@ -6,7 +6,6 @@ import Anvil from './tools/Anvil';
 import rxWrapper from "./rxWrapper";
 import { Subject } from 'rxjs';
 import {map, distinct} from "rxjs/operators";
-// import anvil from './tools/anvilData';
 
 class Game extends React.Component {
     constructor(props) {
@@ -44,8 +43,10 @@ function signalMap(timeTracker, season, addCard, addToDataMap) {
         }
     });
 
-    addToDataMap.next({ key: 'anvil', creator: () => new Subject() });
-    // dataMap.addCard.next(anvil(dataMap));
+    addToDataMap.next({
+        key: 'anvil',
+        creator: () => new Subject()
+    });
 
     return {};
 }
