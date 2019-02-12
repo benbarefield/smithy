@@ -1,4 +1,4 @@
-.card--details {
+.card-details {
     position: absolute;
     right: 10px;
     top: 10px;
@@ -11,13 +11,20 @@
     color: #333;
 }
 
-.job--pay {
+.job-pay {
     span {
         vertical-align: top;
     }
 
-    .job--pay__value {
+    .job-pay__value {
         color: #ada205;
         margin-right: 4px;
     }
+}
+
+.tool-slots__slot {
+    width: 60px;
+    height: 60px;
+    background: rgba(30, 30, 30, 0.3);
+    border: 1px solid #777;
 }

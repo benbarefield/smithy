@@ -2,11 +2,16 @@ import React from 'react';
 import rxWrapper from '../rxWrapper';
 import {merge} from "rxjs";
 import {scan} from "rxjs/operators";
+import {CARD_TYPE_TOOL} from "../constants/cardTypes";
 
 const ANVIL_NAME = 'Anvil';
 const ANVIL_CARD = {
     name: ANVIL_NAME,
     description: "An anvil",
+    slots: [
+        { id: 'slot_1' }
+    ],
+    type: CARD_TYPE_TOOL
 };
 
 class View extends React.Component {
@@ -30,9 +35,9 @@ class View extends React.Component {
 
 function selected(e) {
     e.stopPropagation();
-    if(this.props.selectedCard) {
-        this.props.sinks.anvil({ processingCards: [this.props.selectedCard] });
-    }
+    // if(this.props.selectedCard) {
+    //     this.props.sinks.anvil({ processingCards: [this.props.selectedCard] });
+    // }
     this.props.sinks.select(ANVIL_CARD);
 }
 

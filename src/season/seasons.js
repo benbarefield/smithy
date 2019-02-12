@@ -1,4 +1,4 @@
-import * as cardTypes from '../cards/constants';
+import { CARD_TYPE_JOB, CARD_TYPE_ITEM } from '../constants/cardTypes';
 
 const seasons = {
     'SPRING': { name: 'Spring', className: 'spring' },
@@ -55,7 +55,7 @@ const jobGeneratorMap = {
 };
 function springJobGenerator(statusEffects) {
     return {
-        type: cardTypes.CARD_TYPE_JOB,
+        type: CARD_TYPE_JOB,
         jobType: 'repair',
         name: 'Repair job',
         description: 'Fix a Scythe',
@@ -65,7 +65,7 @@ function springJobGenerator(statusEffects) {
         associatedCards: [
             {
                 id: CARD_ID++,
-                type: cardTypes.CARD_TYPE_ITEM,
+                type: CARD_TYPE_ITEM,
                 name: 'Scythe',
                 description: 'Scythe',
                 quality: 2,
