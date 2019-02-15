@@ -40,10 +40,12 @@ export let season = dataMap =>
     }, nextSeason()), share());
 
 export let cards = dataMap =>
-    merge(dataMap.timeData, dataMap.addCard) // this will update to a merge
+    merge(dataMap.timeData, dataMap.addCard, dataMap.moveCard) // todo: remove card
     .pipe(scan((cards, action) => {
         if(action.type === 'add')
             return cards.concat(action.cardData);
+        if(action.type === 'move')
+            return cards.map(c => c.id === action.id ? Object.extend(c, {position: action.position}) : c);
         if(action.total) {
             return cards.filter(c => !c.completionTime || c.completionTime >= action.total);
         }

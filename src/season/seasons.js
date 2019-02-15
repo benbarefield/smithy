@@ -62,10 +62,12 @@ function springJobGenerator(statusEffects) {
         basePay: 5,
         timeLimit: 120 * 1000,
         id: CARD_ID++,
+        position: 0,
         associatedCards: [
             {
                 id: CARD_ID++,
                 type: CARD_TYPE_ITEM,
+                position: 0,
                 name: 'Scythe',
                 description: 'Scythe',
                 quality: 2,

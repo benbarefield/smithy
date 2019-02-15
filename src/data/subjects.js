@@ -12,9 +12,12 @@ export let timeTracker = () => new Subject()
     }, { now: 0, elapsed: 0 }));
 
 export let addCard = () => new Subject()
-    .pipe(map(cardData => { return { type: 'add', cardData }; }));
+    .pipe(map(cardData => ({ type: 'add', cardData })));
 export let removeCard = () => new Subject()
-    .pipe(map(cardData => { return { type: 'remove', cardData }; }));
+    .pipe(map(cardData => ({ type: 'remove', cardData })));
 
 export let selectedCard = () => new Subject()
     .pipe(scan((selection, clicked) => clicked));
+
+export let moveCard = () => new Subject()
+    .pipe(map(({id, position}) => ({ type: 'move', cardId: id, position})));
