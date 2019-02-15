@@ -26,10 +26,14 @@ export default function(WrappedComponent, requiredSignals = emptyReturn, signals
                 m[k] = v => sinks[k].next(v);
                 return m;
             }, {});
+
+            this.passthroughProps = Object.keys(props)
+                .filter( k => k !== 'dataMap' && k !== 'children')
+                .reduce((p, k) => { p[k] = this.props[k]; return p; }, {}); // TODO: do not like
         }
 
         render() {
-            const props = Object.assign({}, this.state, {sinks: this.sinks});
+            const props = Object.assign({}, this.state, {sinks: this.sinks}, this.passthroughProps);
             return (
                 <WrappedComponent {...props}>
                     {this.props.children}
@@ -38,10 +42,10 @@ export default function(WrappedComponent, requiredSignals = emptyReturn, signals
         }
     }
 
-    function rxer(value) {
+    function rxer(props, value) {
         if(requiredSignals.some(k => !value.dataMap[k])) { return null; }
         return (
-            <RxWrapper dataMap={value.dataMap}>
+            <RxWrapper dataMap={value.dataMap} {...props}>
                 {this.props.children}
             </RxWrapper>
         )
@@ -50,7 +54,7 @@ export default function(WrappedComponent, requiredSignals = emptyReturn, signals
     class RxWrapperHelper extends React.Component {
         constructor(props) {
             super(props);
-            this.rxer = rxer.bind(this);
+            this.rxer = rxer.bind(this, props);
         }
 
         render() {
