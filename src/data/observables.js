@@ -47,7 +47,7 @@ export let cards = dataMap =>
         if(action.type === 'move')
             return cards.map(c => c.id === action.cardId ? Object.assign(c, {position: action.position}) : c);
         if(action.total) {
-            return cards.filter(c => !c.completionTime || c.completionTime >= action.total);
+            return cards.filter(c => !c.completionTime || c.completionTime >= action.total); // TODO: can't use total time so card doesn't lose time in tool slot
         }
         return cards;
     }, []), share());

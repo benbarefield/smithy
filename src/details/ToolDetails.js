@@ -3,6 +3,21 @@ import React from 'react';
 import rxWrapper from "../rxWrapper";
 import Card from '../cards/CardView';
 
+class ToolDetails extends React.Component {
+    render() {
+        if(!this.props.selectedTool) { return null; }
+        let {description, slots} = this.props.selectedTool;
+        return (
+            <div className={'tool-details'}>
+                <div className={'tool-details__description'}>{description}</div>
+                <div className={'tool-slots'}>
+                    {slots.map(s => <ToolSlot key={s.id} slotId={s.id}/> )}
+                </div>
+            </div>
+        )
+    }
+}
+
 class ToolSlotComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -10,7 +25,7 @@ class ToolSlotComponent extends React.Component {
         this.slotClicked = e => {
             e.stopPropagation();
             const inSlotCard = getCardInSlot(this.props.cards, this.props.slotId);
-            if(!this.props.selectedCard || !!inSlotCard) { return; }
+            if(!this.props.selectedCard || !!inSlotCard) { return; } // TODO: selectedCard is null until a card is selected, need to get starting values... maybe change observable/subject type
             this.props.sinks.moveCard({cardId: this.props.selectedCard.id, position: this.props.slotId});
         }
     }
@@ -32,21 +47,6 @@ const ToolSlot = rxWrapper(ToolSlotComponent,
     ['cards', 'selectedCard', 'moveCard'],
     (cards, selectedCard) => ({cards, selectedCard}),
     (cards, selectedCard, moveCard) => ({moveCard}));
-
-class ToolDetails extends React.Component {
-    render() {
-        if(!this.props.selectedTool) { return null; }
-        let {description, slots} = this.props.selectedTool;
-        return (
-            <div className={'tool-details'}>
-                <div className={'tool-details__description'}>{description}</div>
-                <div className={'tool-slots'}>
-                    {slots.map(s => <ToolSlot key={s.id} slotId={s.id}/> )}
-                </div>
-            </div>
-        )
-    }
-}
 
 export default rxWrapper(ToolDetails,
     ['selectedTool'],
