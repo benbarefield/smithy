@@ -1,9 +1,10 @@
 import React from 'react';
 import GameTime from './gameTime/Wrapper';
 import Season from './season/Wrapper';
-import Jobs from './cards/Wrapper';
+import Cards from './cards/CollectionView';
 import Anvil from './tools/Anvil';
-import DetailsView from './details/DetailsView';
+import CardDetails from './details/CardDetails';
+import ToolDetails from './details/ToolDetails';
 import rxWrapper from "./rxWrapper";
 import { Subject } from 'rxjs';
 import {map, distinct} from "rxjs/operators";
@@ -20,9 +21,12 @@ class Game extends React.Component {
             <div className='game' onClick={this.appClicked}>
                 <Season/>
                 <GameTime/>
-                <Jobs/>
+                <Cards/>
                 <Anvil/>
-                <DetailsView/>
+                <div className='details'>
+                    <CardDetails/>
+                    <ToolDetails/>
+                </div>
             </div>
         );
     }

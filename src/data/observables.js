@@ -45,7 +45,7 @@ export let cards = dataMap =>
         if(action.type === 'add')
             return cards.concat(action.cardData);
         if(action.type === 'move')
-            return cards.map(c => c.id === action.id ? Object.extend(c, {position: action.position}) : c);
+            return cards.map(c => c.id === action.cardId ? Object.assign(c, {position: action.position}) : c);
         if(action.total) {
             return cards.filter(c => !c.completionTime || c.completionTime >= action.total);
         }

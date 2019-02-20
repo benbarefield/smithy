@@ -19,5 +19,8 @@ export let removeCard = () => new Subject()
 export let selectedCard = () => new Subject()
     .pipe(scan((selection, clicked) => clicked));
 
+export let selectedTool = () => new Subject()
+    .pipe(scan((selection, clicked) => clicked));
+
 export let moveCard = () => new Subject()
-    .pipe(map(({id, position}) => ({ type: 'move', cardId: id, position})));
+    .pipe(map(({cardId, position}) => ({ type: 'move', cardId, position})));

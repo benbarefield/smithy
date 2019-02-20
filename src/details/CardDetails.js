@@ -1,16 +1,14 @@
-import './DetailsView.scss';
+import './CardDetails.scss';
 import rxWrapper from '../rxWrapper';
 import React from 'react';
 import JobDetails from './JobDetails';
-import ToolDetails from './ToolDetails';
-import { CARD_TYPE_JOB, CARD_TYPE_TOOL } from "../constants/cardTypes";
+import { CARD_TYPE_JOB } from "../constants/cardTypes";
 
 const additionalDetailsMap = {
     [CARD_TYPE_JOB]: JobDetails,
-    [CARD_TYPE_TOOL]: ToolDetails
 };
 
-class DetailsView extends React.Component {
+class CardDetails extends React.Component {
     render() {
         if(!this.props.selectedCard) {
             return null;
@@ -26,6 +24,6 @@ class DetailsView extends React.Component {
     }
 }
 
-export default rxWrapper(DetailsView,
+export default rxWrapper(CardDetails,
     ['selectedCard'],
     selectedCard => ({selectedCard}));

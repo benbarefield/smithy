@@ -9,7 +9,7 @@ const ANVIL_CARD = {
     name: ANVIL_NAME,
     description: "An anvil",
     slots: [
-        { id: 'slot_1' }
+        { id: 'anvil_slot_1' }
     ],
     type: CARD_TYPE_TOOL
 };
@@ -23,7 +23,7 @@ class View extends React.Component {
     render() {
         let time = this.props.toolData ? this.props.toolData.processingTime : 0;
         time = Math.round(time / 100) / 10;
-        const selected = this.props.selectedCard && this.props.selectedCard.name === ANVIL_NAME ? 'selected' : '';
+        const selected = this.props.selectedCard === ANVIL_CARD ? 'selected' : '';
         return (
             <div className={`card item ${selected}`} onClick={this.selected}>
                 <div className={'card--icon'}>Anvil</div>
@@ -35,13 +35,10 @@ class View extends React.Component {
 
 function selected(e) {
     e.stopPropagation();
-    // if(this.props.selectedCard) {
-    //     this.props.sinks.anvil({ processingCards: [this.props.selectedCard] });
-    // }
     this.props.sinks.select(ANVIL_CARD);
 }
 
-function signalMap(anvil, timeData, selectedCard) {
+function signalMap(anvil, timeData, selectedTool) {
     return {
         toolData: merge(anvil, timeData).pipe(
             scan((toolData, next) => {
@@ -68,7 +65,7 @@ function signalMap(anvil, timeData, selectedCard) {
                 processingTime: 0
             })
         ),
-        selectedCard
+        selectedCard: selectedTool
     };
 }
 function processCard(card) {
@@ -81,7 +78,7 @@ function processCard(card) {
 }
 
 export default rxWrapper(View,
-    ['anvil', 'timeData', 'selectedCard'],
+    ['anvil', 'timeData', 'selectedTool'],
     signalMap,
-    (anvil, timeData, selectedCard) => ({anvil, select: selectedCard})
+    (anvil, timeData, selectedTool) => ({anvil, select: selectedTool})
 );

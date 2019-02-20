@@ -1,7 +1,4 @@
 .card-details {
-    position: absolute;
-    right: 10px;
-    top: 10px;
     width: 300px;
     min-height: 80px;
     box-sizing: border-box;
@@ -9,6 +6,7 @@
     background-color: #eeecdb;
     border: 1px solid #aaa;
     color: #333;
+    margin-bottom: 8px;
 }
 
 .job-pay {
@@ -20,11 +18,4 @@
         color: #ada205;
         margin-right: 4px;
     }
-}
-
-.tool-slots__slot {
-    width: 60px;
-    height: 60px;
-    background: rgba(30, 30, 30, 0.3);
-    border: 1px solid #777;
 }

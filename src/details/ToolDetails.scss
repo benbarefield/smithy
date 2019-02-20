@@ -1,0 +1,20 @@
+.tool-details {
+    width: 300px;
+    min-height: 80px;
+    box-sizing: border-box;
+    padding: 8px;
+    background-color: #eeecdb;
+    border: 1px solid #aaa;
+    color: #333;
+}
+
+.tool-slots__slot {
+    width: 68px;
+    height: 68px;
+    background: rgba(30, 30, 30, 0.3);
+    border: 1px solid #777;
+
+    .card {
+        margin: 0;
+    }
+}

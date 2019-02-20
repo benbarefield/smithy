@@ -1,23 +1,32 @@
 import React from 'react';
+import rxWrapper from "../rxWrapper";
 
-export default class extends React.Component {
+class Job extends React.Component {
     constructor(props) {
         super(props);
 
         this.select = e => {
             e.stopPropagation();
-            this.props.select(this.props.jobData);
+            this.props.sinks.select(this.props.data);
         }
     }
 
     render() {
-        let { jobType: type, completionTime } = this.props.jobData;
+        if(!this.props.timeData) { return null; }
+        let { jobType: type, completionTime } = this.props.data;
         let timeRemaining = ((completionTime - this.props.timeData.total) / 1000).toFixed(1);
+        let selected = this.props.selectedCard === this.props.data ? 'selected' : '';
         return (
-            <div className={`card job ${type}`} onClick={this.select}>
+            <div className={`card job ${type} ${selected}`} onClick={this.select}>
                 <div className={'card--icon'}>{type}</div>
                 <div className={'card--timer'}>{`${timeRemaining}s`}</div>
             </div>
         );
     }
 }
+
+export default rxWrapper(Job,
+    ['selectedCard', 'timeData'],
+    (selectedCard, timeData) => ({timeData, selectedCard}),
+    (selectedCard) => ({select: selectedCard})
+);
