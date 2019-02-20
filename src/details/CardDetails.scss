@@ -19,3 +19,18 @@
         margin-right: 4px;
     }
 }
+
+
+.card-details__modifiers {
+    margin-top: 13px;
+
+    .card-details__modifier {
+        width: 12px;
+        height: 12px;
+        border: 1px solid #333;
+        margin-right: 3px;
+    }
+    .modifier__misshapen {
+        background: #812bac;
+    }
+}

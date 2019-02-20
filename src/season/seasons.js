@@ -1,4 +1,5 @@
 import { CARD_TYPE_JOB, CARD_TYPE_ITEM } from '../constants/cardTypes';
+import { MISSHAPEN } from "../constants/cardModifiers";
 
 const seasons = {
     'SPRING': { name: 'Spring', className: 'spring' },
@@ -70,9 +71,7 @@ function springJobGenerator(statusEffects) {
                 position: 0,
                 name: 'Scythe',
                 description: 'Scythe',
-                quality: 2,
-                maxQuality: 50,
-                sharpness: 5
+                modifiers: [MISSHAPEN]
             }
         ]
     };
