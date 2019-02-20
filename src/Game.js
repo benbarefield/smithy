@@ -13,7 +13,12 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
 
-        this.appClicked = () => this.props.sinks.select(null);
+        this.appClicked = () => {
+            if(this.props.selectedCard && this.props.selectedCard.position !== 0) {
+                this.props.sinks.move({ cardId: this.props.selectedCard.id, position: 0});
+            }
+            this.props.sinks.select(null);
+        };
     }
 
     render() {
@@ -32,7 +37,7 @@ class Game extends React.Component {
     }
 }
 
-function signalMap(timeTracker, season, addCard, addToDataMap) {
+function signalMap(timeTracker, season, addCard, addToDataMap, selectedCard) {
     const frame = t => {
         timeTracker.next(t);
         window.requestAnimationFrame(frame);
@@ -54,11 +59,11 @@ function signalMap(timeTracker, season, addCard, addToDataMap) {
         creator: () => new Subject()
     });
 
-    return {};
+    return { selectedCard };
 }
 
 export default rxWrapper(Game,
-    ['timeTracker', 'season', 'addCard', 'addToDataMap', 'selectedCard'],
+    ['timeTracker', 'season', 'addCard', 'addToDataMap', 'selectedCard', 'moveCard'],
     signalMap,
-    (tt, s, ac, atdm, selectedCard) => ({select: selectedCard})
+    (tt, s, ac, atdm, selectedCard, moveCard) => ({select: selectedCard, move: moveCard})
 );
