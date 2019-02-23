@@ -1,5 +1,3 @@
-$buttonBackground: darken(#f8993d, 10%);
-
 .game-time--container {
     position: fixed;
     bottom: 0;
@@ -10,28 +8,4 @@ $buttonBackground: darken(#f8993d, 10%);
     justify-content: flex-end;
     padding: 8px;
     box-sizing: border-box;
-}
-
-button {
-    width: 120px;
-    height: 30px;
-    font-size: 14/16em;
-    font-weight: 500;
-    background-color: $buttonBackground;
-    border: 1px solid #fff;
-    color: #333;
-    border-radius: 5px;
-    outline: none;
-    margin-right: 8px;
-}
-button:last-child {
-    margin-right: 0;
-}
-button:hover {
-    background-color: lighten($buttonBackground, 5%);
-}
-
-button.selected {
-    background-color: lighten($buttonBackground, 15%);
-    border-color: darken(#fff, 15%);
 }

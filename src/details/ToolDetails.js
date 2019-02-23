@@ -4,6 +4,17 @@ import rxWrapper from "../rxWrapper";
 import Card from '../cards/CardView';
 
 class ToolDetails extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.startTool = e => {
+            e.stopPropagation();
+            const { selectedTool, cards } = this.props;
+            const slottedCards = cards.filter(c => !!selectedTool.slots.find(s => s.id === c.position));
+            this.props.selectedTool.sink({slottedCards});
+        }
+    }
+
     render() {
         if(!this.props.selectedTool) { return null; }
         let {description, slots} = this.props.selectedTool;
@@ -13,6 +24,7 @@ class ToolDetails extends React.Component {
                 <div className={'tool-slots'}>
                     {slots.map(s => <ToolSlot key={s.id} slotId={s.id}/> )}
                 </div>
+                <button className='tool-details__start' onClick={this.startTool}>Start</button>
             </div>
         )
     }
@@ -49,5 +61,5 @@ const ToolSlot = rxWrapper(ToolSlotComponent,
     (cards, selectedCard, moveCard) => ({moveCard}));
 
 export default rxWrapper(ToolDetails,
-    ['selectedTool'],
-    (selectedTool) => ({selectedTool}));
+    ['cards','selectedTool'],
+    (cards, selectedTool) => ({cards, selectedTool}));

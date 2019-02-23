@@ -18,6 +18,7 @@ class Game extends React.Component {
                 this.props.sinks.move({ cardId: this.props.selectedCard.id, position: 0});
             }
             this.props.sinks.select(null);
+            // TODO: select null tool
         };
     }
 

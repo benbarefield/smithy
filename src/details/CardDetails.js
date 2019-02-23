@@ -21,7 +21,7 @@ class CardDetails extends React.Component {
                 { AdditionalDetails ? <AdditionalDetails card={this.props.selectedCard} /> : null }
                 <div className='card-details__modifiers'>
                     {!this.props.selectedCard.modifiers ? null :
-                        this.props.selectedCard.modifiers.map(m => <div className={`card-details__modifier ${m.className}`}/> )}
+                        this.props.selectedCard.modifiers.map((m, i) => <div key={`card-details__modifier--${i}`} className={`card-details__modifier ${m.className}`}/> )}
                 </div>
             </div>
         );
