@@ -17,8 +17,8 @@ class Game extends React.Component {
             if(this.props.selectedCard && this.props.selectedCard.position !== 0) {
                 this.props.sinks.move({ cardId: this.props.selectedCard.id, position: 0});
             }
-            this.props.sinks.select(null);
-            // TODO: select null tool
+            this.props.sinks.selectCard(null);
+            this.props.sinks.selectTool(null);
         };
     }
 
@@ -64,7 +64,7 @@ function signalMap(timeTracker, season, addCard, addToDataMap, selectedCard) {
 }
 
 export default rxWrapper(Game,
-    ['timeTracker', 'season', 'addCard', 'addToDataMap', 'selectedCard', 'moveCard'],
+    ['timeTracker', 'season', 'addCard', 'addToDataMap', 'selectedCard', 'moveCard', 'selectedTool'],
     signalMap,
-    (tt, s, ac, atdm, selectedCard, moveCard) => ({select: selectedCard, move: moveCard})
+    (tt, s, ac, atdm, selectedCard, moveCard, selectedTool) => ({selectCard: selectedCard, move: moveCard, selectTool: selectedTool})
 );
