@@ -1,5 +1,4 @@
 import React from 'react';
-import GameTime from './gameTime/Wrapper';
 import Season from './season/Wrapper';
 import Cards from './cards/CollectionView';
 import Anvil from './tools/Anvil';
@@ -8,6 +7,7 @@ import ToolDetails from './details/ToolDetails';
 import rxWrapper from "./rxWrapper";
 import { Subject } from 'rxjs';
 import {map, distinct} from "rxjs/operators";
+import Footer from "./footer/Footer";
 
 class Game extends React.Component {
     constructor(props) {
@@ -26,13 +26,13 @@ class Game extends React.Component {
         return (
             <div className='game' onClick={this.appClicked}>
                 <Season/>
-                <GameTime/>
                 <Cards/>
                 <Anvil/>
                 <div className='details'>
                     <CardDetails/>
                     <ToolDetails/>
                 </div>
+                <Footer/>
             </div>
         );
     }
