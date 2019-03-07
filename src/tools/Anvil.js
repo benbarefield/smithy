@@ -10,7 +10,10 @@ const ANVIL_CARD = {
     name: ANVIL_NAME,
     description: "An anvil",
     slots: [
-        { id: 'anvil_slot_1' }
+        {
+            id: 'anvil_slot_1',
+            acceptedModifiers: [MISSHAPEN]
+        }
     ],
     type: CARD_TYPE_TOOL
 };
@@ -32,7 +35,7 @@ class View extends React.Component {
     render() {
         let time = this.props.toolData ? this.props.toolData.processingTime : 0;
         time = Math.round(time / 100) / 10;
-        const selected = this.props.selectedCard === this.card ? 'selected' : '';
+        const selected = this.props.selectedTool === this.card ? 'selected' : '';
         return (
             <div className={`card item ${selected}`} onClick={this.selected}>
                 <div className={'card--icon'}>Anvil</div>
@@ -69,7 +72,7 @@ function signalMap(anvil, timeData, selectedTool, addCard, removeCard) {
                 processingTime: 0
             })
         ),
-        selectedCard: selectedTool
+        selectedTool: selectedTool
     };
 }
 function processCard(card) {

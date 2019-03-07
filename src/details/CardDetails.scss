@@ -21,7 +21,7 @@
 }
 
 
-.card-details__modifiers {
+.job__requirements,.card-details__modifiers {
     margin-top: 13px;
 
     .card-details__modifier {
@@ -29,8 +29,16 @@
         height: 12px;
         border: 1px solid #333;
         margin-right: 3px;
+        display: inline-block;
+        vertical-align: top;
     }
     .modifier__misshapen {
         background: #812bac;
+    }
+    .modifier__farm-tool {
+        background: #dadada;
+    }
+    .modifier__job {
+        background: #ea1235;
     }
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import Season from './season/Wrapper';
 import Cards from './cards/CollectionView';
 import Anvil from './tools/Anvil';
+import JobDelivery from './tools/JobDelivery';
 import CardDetails from './details/CardDetails';
 import ToolDetails from './details/ToolDetails';
 import rxWrapper from "./rxWrapper";
@@ -28,6 +29,7 @@ class Game extends React.Component {
                 <Season/>
                 <Cards/>
                 <Anvil/>
+                <JobDelivery />
                 <div className='details'>
                     <CardDetails/>
                     <ToolDetails/>

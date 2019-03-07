@@ -1,14 +1,26 @@
 import React from 'react';
+// import rxWrapper from "../rxWrapper";
 
-export default class extends React.Component {
+export default class JobDetails extends React.Component {
     render() {
-        const {basePay} = this.props.card;
+        const {basePay, completionRequirements} = this.props.card;
         return (
-            <div className={'job-pay'}>
-                <span className={'job-pay__description'}>Paying: </span>
-                <span className={'job-pay__value'}>{basePay}</span>
-                <span className={'job-pay__unit'}>g</span>
+            <div className='job__details'>
+                <div className='job-pay'>
+                    <span className='job-pay__description'>Paying: </span>
+                    <span className='job-pay__value'>{basePay}</span>
+                    <span className='job-pay__unit'>g</span>
+                </div>
+                <div className='job__requirements'>
+                    {
+                        completionRequirements.reduce((rs, c) => rs.concat(
+                            c.acceptedModifiers.map((m, i) => <div key={`card-details__modifier--${i}`} className={`card-details__modifier ${m.className}`}/>)
+                        ), [])
+                    }
+                </div>
             </div>
         )
     }
 }
+
+// export default rxWrapper(JobDetails)

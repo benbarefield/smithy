@@ -1,5 +1,5 @@
 import { CARD_TYPE_JOB, CARD_TYPE_ITEM } from '../constants/cardTypes';
-import { MISSHAPEN } from "../constants/cardModifiers";
+import {FARM_TOOL, MISSHAPEN} from "../constants/cardModifiers";
 
 const seasons = {
     'SPRING': { name: 'Spring', className: 'spring' },
@@ -55,6 +55,7 @@ const jobGeneratorMap = {
     [seasons.WINTER.name]: winterJobGenerator
 };
 function springJobGenerator(statusEffects) {
+    const jobId = CARD_ID++;
     return {
         type: CARD_TYPE_JOB,
         jobType: 'repair',
@@ -62,8 +63,12 @@ function springJobGenerator(statusEffects) {
         description: 'Fix a Scythe',
         basePay: 5,
         timeLimit: 120 * 1000,
-        id: CARD_ID++,
+        id: jobId,
         position: 0,
+        completionRequirements: [
+            { acceptedModifiers: [FARM_TOOL], rejectedModifiers: [MISSHAPEN] } // maybe need to link the tool to the job with a modifier?
+        ],
+        modifiers: [],
         associatedCards: [
             {
                 id: CARD_ID++,
@@ -71,7 +76,7 @@ function springJobGenerator(statusEffects) {
                 position: 0,
                 name: 'Scythe',
                 description: 'Scythe',
-                modifiers: [MISSHAPEN]
+                modifiers: [FARM_TOOL, MISSHAPEN]
             }
         ]
     };
