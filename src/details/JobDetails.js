@@ -3,7 +3,7 @@ import React from 'react';
 
 export default class JobDetails extends React.Component {
     render() {
-        const {basePay, completionRequirements} = this.props.card;
+        const {basePay, extendedRequirements} = this.props.card;
         return (
             <div className='job__details'>
                 <div className='job-pay'>
@@ -13,7 +13,7 @@ export default class JobDetails extends React.Component {
                 </div>
                 <div className='job__requirements'>
                     {
-                        completionRequirements.reduce((rs, c) => rs.concat(
+                        extendedRequirements.reduce((rs, c) => rs.concat(
                             c.acceptedModifiers.map((m, i) => <div key={`card-details__modifier--${i}`} className={`card-details__modifier ${m.className}`}/>)
                         ), [])
                     }

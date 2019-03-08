@@ -7,8 +7,7 @@ const CARD_BASE = {
     name: NAME,
     description: "Deliver the fruits of your labor",
     slots: [
-        { id: 'job_delivery_slot_1', restrictions: [CARD_TYPE_JOB] },
-        { id: 'job_delivery_slot_2' }
+        { id: 'job_delivery_slot_1', acceptedModifiers: [CARD_TYPE_JOB] },
     ],
     type: CARD_TYPE_TOOL
 };
@@ -39,8 +38,8 @@ class View extends React.Component {
 
 function signalMap(selectedTool, deliverJob, removeCard, addCash) {
     deliverJob.subscribe(next => {
-        next.slottedCards.forEach(c => removeCard(c));
-        addCash.next(next.slottedCards[0].basePay);
+        next.slottedCards.forEach(c => removeCard.next(c));
+        addCash.next(next.slottedCards[0].basePay); 
     });
     return {
         selectedTool

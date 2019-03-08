@@ -18,18 +18,27 @@ class ToolDetails extends React.Component {
 
     render() {
         if(!this.props.selectedTool) { return null; }
-        let {description, slots} = this.props.selectedTool;
+        const {description, slots} = this.props.selectedTool;
+        const slottedCards = slots.map(s => this.props.cards.find(c => c.position === s.id));
         return (
             <div className={'tool-details'}>
                 <div className={'tool-details__description'}>{description}</div>
                 <div className={'tool-slots'}>
                     {slots.map(s => <ToolSlot key={s.id} slotInfo={s}/> )}
+                    {slottedCards.reduce((extraSlots, card) => {
+                        if(!card || !card.extendedRequirements ||!card.extendedRequirements.length) { return; }
+                        return extraSlots.concat(card.extendedRequirements.map(s => <ToolSlot key={s.id} slotInfo={s} />));
+                    }, [])}
                 </div>
                 <button className='tool-details__start' onClick={this.startTool}>Start</button>
             </div>
         )
     }
 }
+
+export default rxWrapper(ToolDetails,
+    ['cards','selectedTool'],
+    (cards, selectedTool) => ({cards, selectedTool}));
 
 class ToolSlotComponent extends React.Component {
     constructor(props) {
@@ -60,14 +69,11 @@ function getCardInSlot(cards, slotId) {
 }
 function cardMatchesRequirements(slot, card) {
     if(!slot.acceptedModifiers || !slot.acceptedModifiers.length) { return true; }
-    return !!slot.acceptedModifiers.find(m => card.modifiers.indexOf(m) > -1);
+    return (!slot.acceptedModifiers || !!slot.acceptedModifiers.find(m => m === card.type || card.modifiers.indexOf(m) > -1)) &&
+        (!slot.rejectedModifiers || slot.rejectedModifiers.every(r => r !== card.type && card.modifiers.indexOf(r) < 0));
 }
 
 const ToolSlot = rxWrapper(ToolSlotComponent,
     ['cards', 'selectedCard', 'moveCard'],
     (cards, selectedCard) => ({cards, selectedCard}),
     (cards, selectedCard, moveCard) => ({selectCard: selectedCard, moveCard}));
-
-export default rxWrapper(ToolDetails,
-    ['cards','selectedTool'],
-    (cards, selectedTool) => ({cards, selectedTool}));

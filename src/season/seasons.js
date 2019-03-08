@@ -55,7 +55,7 @@ const jobGeneratorMap = {
     [seasons.WINTER.name]: winterJobGenerator
 };
 function springJobGenerator(statusEffects) {
-    const jobId = CARD_ID++;
+    const jobId = CARD_ID++; // TODO: probably change to UUID
     return {
         type: CARD_TYPE_JOB,
         jobType: 'repair',
@@ -65,8 +65,8 @@ function springJobGenerator(statusEffects) {
         timeLimit: 120 * 1000,
         id: jobId,
         position: 0,
-        completionRequirements: [
-            { acceptedModifiers: [FARM_TOOL], rejectedModifiers: [MISSHAPEN] } // maybe need to link the tool to the job with a modifier?
+        extendedRequirements: [
+            { acceptedModifiers: [FARM_TOOL], rejectedModifiers: [MISSHAPEN], id: 'job_return_1' } // maybe need to link the tool to the job with a modifier? also slot id here is awkward
         ],
         modifiers: [],
         associatedCards: [
