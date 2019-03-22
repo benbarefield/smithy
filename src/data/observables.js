@@ -40,6 +40,7 @@ export let season = dataMap =>
         return Object.assign({}, data, {time : remaining});
     }, nextSeason()), share());
 
+// required observables: timeData, addCard, removeCard, moveCard
 export let cards = dataMap =>
     merge(dataMap.timeData, dataMap.addCard, dataMap.removeCard, dataMap.moveCard)
     .pipe(scan((cards, action) => {
@@ -55,7 +56,7 @@ export let cards = dataMap =>
         return cards;
     }, []), share());
 
-// probably need a 'stateful' observable here to get a default value before any changes happen? or just start at 0 and add in game?
+// required observables: addCard, removeCard
 export let cash = dataMap =>
     merge(dataMap.addCard, dataMap.removeCard)
     .pipe(scan((cash, action) => {
@@ -66,4 +67,4 @@ export let cash = dataMap =>
             return cash - 1;
         }
         return cash;
-    }, 10), share());
+    }, 0), share());
