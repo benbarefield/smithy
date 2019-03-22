@@ -12,3 +12,13 @@ export const JOB = {
     description: 'A job',
     className: 'modifier__job'
 };
+
+export const CASH = {
+    description: 'A type of currency',
+    className: 'modifier__cash'
+};
+
+export const COPPER_BIT = {
+    description: 'Worth the least of all the currency types',
+    className: 'modifier__copper-bit'
+};

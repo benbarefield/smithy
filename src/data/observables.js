@@ -1,6 +1,7 @@
 import { combineLatest, concat, from, fromEvent, merge } from "rxjs";
 import { map, scan, share } from "rxjs/operators";
 import { nextSeason } from '../season/seasons';
+import {COPPER_BIT} from "../constants/cardModifiers";
 
 export let whichKeyUp = () =>
     concat(from([false]), fromEvent(window, 'keyup'))
@@ -56,10 +57,13 @@ export let cards = dataMap =>
 
 // probably need a 'stateful' observable here to get a default value before any changes happen? or just start at 0 and add in game?
 export let cash = dataMap =>
-    dataMap.addCash
+    merge(dataMap.addCard, dataMap.removeCard)
     .pipe(scan((cash, action) => {
-        if(action.type === 'add') {
-            return cash + action.amount;
+        if(action.type === 'add' && action.cardData.modifiers.indexOf(COPPER_BIT) >= 0) {
+            return cash + 1;
+        }
+        if(action.type === 'remove' && action.cardData.modifiers.indexOf(COPPER_BIT) >= 0) {
+            return cash - 1;
         }
         return cash;
     }, 10), share());

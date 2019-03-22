@@ -36,10 +36,10 @@ class View extends React.Component {
     }
 }
 
-function signalMap(selectedTool, deliverJob, removeCard, addCash) {
+function signalMap(selectedTool, deliverJob, removeCard, addCard) {
     deliverJob.subscribe(next => {
+        next.slottedCards[0].pay.forEach(p => addCard.next(p));
         next.slottedCards.forEach(c => removeCard.next(c));
-        addCash.next(next.slottedCards[0].basePay); 
     });
     return {
         selectedTool
@@ -53,7 +53,7 @@ function processCard(card) {
 }
 
 export default rxWrapper(View,
-    ['selectedTool', 'deliverJob', 'removeCard', 'addCash'],
+    ['selectedTool', 'deliverJob', 'removeCard', 'addCard'],
     signalMap,
     (selectedTool, deliverJob) => ({deliverJob, select: selectedTool})
 );

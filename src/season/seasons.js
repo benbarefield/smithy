@@ -1,5 +1,5 @@
-import { CARD_TYPE_JOB, CARD_TYPE_ITEM } from '../constants/cardTypes';
-import {FARM_TOOL, MISSHAPEN} from "../constants/cardModifiers";
+import {CARD_TYPE_JOB, CARD_TYPE_ITEM} from '../constants/cardTypes';
+import {CASH, COPPER_BIT, FARM_TOOL, MISSHAPEN} from "../constants/cardModifiers";
 
 const seasons = {
     'SPRING': { name: 'Spring', className: 'spring' },
@@ -61,7 +61,6 @@ function springJobGenerator(statusEffects) {
         jobType: 'repair',
         name: 'Repair job',
         description: 'Fix a Scythe',
-        basePay: 5,
         timeLimit: 120 * 1000,
         id: jobId,
         position: 0,
@@ -78,10 +77,27 @@ function springJobGenerator(statusEffects) {
                 description: 'Scythe',
                 modifiers: [FARM_TOOL, MISSHAPEN]
             }
+        ],
+        pay: [
+            { id: CARD_ID++, type: CARD_TYPE_ITEM, position: 0, name: 'Copper Bit', description: 'A copper bit', modifiers: [CASH, COPPER_BIT] },
+            { id: CARD_ID++, type: CARD_TYPE_ITEM, position: 0, name: 'Copper Bit', description: 'A copper bit', modifiers: [CASH, COPPER_BIT] }
         ]
     };
 }
 function summerJobGenerator(statusEffects) {
+    // const jobId = CARD_ID++; // TODO : UUID?
+    // return {
+    //     type: CARD_TYPE_JOB,
+    //     jobType: 'buy',
+    //     name: 'Adventurer selling goods',
+    //     description: 'An adventurer has arrived at your shop to off load some of what she found on her quests.',
+    //     basePay: 0,
+    //     timeLimit: 20 * 1000,
+    //     id: jobId,
+    //     position: 0,
+    //     extendedRequirements: [],
+    //     modifiers: []
+    // }
     return null;
 }
 function autumnJobGenerator(statusEffects) {

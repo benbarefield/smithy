@@ -26,6 +26,3 @@ export let moveCard = () => new Subject()
     .pipe(map(({cardId, position}) => ({ type: 'move', cardId, position})));
 
 export let deliverJob = () => new Subject();
-
-export let addCash = () => new Subject()
-    .pipe(map(amount => ({type: 'add', amount })));
