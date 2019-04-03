@@ -25,4 +25,7 @@ export let selectedTool = () => new Subject()
 export let moveCard = () => new Subject()
     .pipe(map(({cardId, position}) => ({ type: 'move', cardId, position})));
 
-export let deliverJob = () => new Subject();
+export let purchaseFromAdventurer = () => new Subject()
+    .pipe(map((slottedCards, purchase) => ({ type: 'purchase', payment: slottedCards, details: purchase })));
+
+export let startTool = () => new Subject();

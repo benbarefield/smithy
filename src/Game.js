@@ -1,14 +1,13 @@
 import React from 'react';
 import Season from './season/Wrapper';
 import Cards from './cards/CollectionView';
-import Anvil from './tools/Anvil';
-import JobDelivery from './tools/JobDelivery';
 import CardDetails from './details/CardDetails';
 import ToolDetails from './details/ToolDetails';
 import rxWrapper from "./rxWrapper";
-import { Subject } from 'rxjs';
 import {map, distinct} from "rxjs/operators";
 import Footer from "./footer/Footer";
+import {MISSHAPEN} from "./constants/cardModifiers";
+import {CARD_TYPE_JOB, CARD_TYPE_TOOL, TOOL_ANVIL, TOOL_JOB_DELIVERY} from "./constants/cardTypes";
 
 class Game extends React.Component {
     constructor(props) {
@@ -28,8 +27,6 @@ class Game extends React.Component {
             <div className='game' onClick={this.appClicked}>
                 <Season/>
                 <Cards/>
-                <Anvil/>
-                <JobDelivery />
                 <div className='details'>
                     <CardDetails/>
                     <ToolDetails/>
@@ -40,7 +37,7 @@ class Game extends React.Component {
     }
 }
 
-function signalMap(timeTracker, season, addCard, addToDataMap, selectedCard) {
+function signalMap(timeTracker, season, addCard, selectedCard) {
     const frame = t => {
         timeTracker.next(t);
         window.requestAnimationFrame(frame);
@@ -57,16 +54,40 @@ function signalMap(timeTracker, season, addCard, addToDataMap, selectedCard) {
         }
     });
 
-    addToDataMap.next({
-        key: 'anvil',
-        creator: () => new Subject()
-    });
+    // setTimeout(() => {
+        addCard.next({
+            id: 'TOOL_ANVIL',
+            name: 'Anvil',
+            description: "An anvil",
+            slots: [
+                {
+                    id: 'anvil_slot_1',
+                    acceptedModifiers: [MISSHAPEN]
+                }
+            ],
+            type: CARD_TYPE_TOOL,
+            toolType: TOOL_ANVIL,
+            position: 0,
+            dataSelector: dataMap => dataMap.anvil
+        });
+        addCard.next({
+            name: 'Delivery',
+            description: "Deliver the fruits of your labor",
+            slots: [
+                { id: 'job_delivery_slot_1', acceptedModifiers: [CARD_TYPE_JOB] },
+            ],
+            type: CARD_TYPE_TOOL,
+            toolType: TOOL_JOB_DELIVERY,
+            position: 0,
+            dataSelector: dataMap => dataMap.jobDelivery
+        });
+    // },1);
 
     return { selectedCard };
 }
 
 export default rxWrapper(Game,
-    ['timeTracker', 'season', 'addCard', 'addToDataMap', 'selectedCard', 'moveCard', 'selectedTool'],
+    ['timeTracker', 'season', 'addCard', 'selectedCard', 'moveCard', 'selectedTool'],
     signalMap,
-    (tt, s, ac, atdm, selectedCard, moveCard, selectedTool) => ({selectCard: selectedCard, move: moveCard, selectTool: selectedTool})
+    (tt, s, ac, selectedCard, moveCard, selectedTool) => ({selectCard: selectedCard, move: moveCard, selectTool: selectedTool})
 );

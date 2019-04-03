@@ -10,8 +10,12 @@ export default function(WrappedComponent, requiredSignals = emptyReturn, signals
         constructor(props) {
             super(props);
 
+            this.passthroughProps = Object.keys(props)
+                .filter( k => k !== 'dataMap' && k !== 'children')
+                .reduce((p, k) => { p[k] = this.props[k]; return p; }, {}); // TODO: do not like
+
             const allSignals = requiredSignals.map(k => props.dataMap[k]);
-            this.signals = signalsMap(...allSignals);
+            this.signals = signalsMap(...allSignals, props.dataMap, this.passthroughProps);
             this.state = Object.keys(this.signals).reduce((s, k) => {
                 if(!this.signals[k]) { return s; }
                 s[k] = null;
@@ -21,15 +25,11 @@ export default function(WrappedComponent, requiredSignals = emptyReturn, signals
                 return s;
             }, {});
 
-            const sinks = sinksMap(...allSignals);
+            const sinks = sinksMap(...allSignals, props.dataMap, this.passthroughProps);
             this.sinks = Object.keys(sinks).reduce((m, k) => {
                 m[k] = v => sinks[k].next(v);
                 return m;
             }, {});
-
-            this.passthroughProps = Object.keys(props)
-                .filter( k => k !== 'dataMap' && k !== 'children')
-                .reduce((p, k) => { p[k] = this.props[k]; return p; }, {}); // TODO: do not like
         }
 
         render() {

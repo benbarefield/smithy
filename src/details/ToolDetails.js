@@ -12,7 +12,7 @@ class ToolDetails extends React.Component {
             const { selectedTool, cards } = this.props;
             const slottedCards = cards.filter(c => !!selectedTool.slots.find(s => s.id === c.position));
             if(slottedCards.length !== this.props.selectedTool.slots.length) { return; }
-            this.props.selectedTool.sink({slottedCards});
+            this.props.sinks.startTool({slottedCards, selectedTool});
         }
     }
 
@@ -32,13 +32,14 @@ class ToolDetails extends React.Component {
                 </div>
                 <button className='tool-details__start' onClick={this.startTool}>Start</button>
             </div>
-        )
+        );
     }
 }
 
 export default rxWrapper(ToolDetails,
-    ['cards','selectedTool'],
-    (cards, selectedTool) => ({cards, selectedTool}));
+    ['cards','selectedTool','startTool'],
+    (cards, selectedTool) => ({cards, selectedTool}),
+    (c, sT, startTool) => ({startTool}));
 
 class ToolSlotComponent extends React.Component {
     constructor(props) {
@@ -74,6 +75,6 @@ function cardMatchesRequirements(slot, card) {
 }
 
 const ToolSlot = rxWrapper(ToolSlotComponent,
-    ['cards', 'selectedCard', 'moveCard'],
+    ['cards', 'selectedCard', 'moveCard', 'startTool'],
     (cards, selectedCard) => ({cards, selectedCard}),
     (cards, selectedCard, moveCard) => ({selectCard: selectedCard, moveCard}));

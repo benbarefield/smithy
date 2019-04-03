@@ -7,13 +7,13 @@ class Item extends React.Component {
 
         this.select = e => {
             e.stopPropagation();
-            this.props.sinks.select(this.props.data);
+            this.props.sinks.select(this.props.cardData);
         }
     }
 
     render() {
-        let { name } = this.props.data;
-        let selected = this.props.selectedCard === this.props.data ? 'selected' : '';
+        let { name } = this.props.cardData;
+        let selected = this.props.selectedCard === this.props.cardData ? 'selected' : '';
         return (
             <div className={`card item ${selected}`} onClick={this.select}>
                 <div className={'card--icon'}>{name}</div>

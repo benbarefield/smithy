@@ -21,11 +21,11 @@ export function nextSeason(currentSeasonName, currentTime = 0) {
     for(let i = 0; i < jobTimes.length; ++i) {
         // jobTimes[i] = (Math.random() * sectionLength - 1) + (i * sectionLength) + 1; TODO: testing
         jobTimes[i] = 59000;
-        let newJob = jobGeneratorMap[nextSeasonInfo.name]();
-        if(newJob) {
-            newJob.seasonStartTime = jobTimes[i];
-            newJob.completionTime = (currentTime + ((60 * 1000) - jobTimes[i])) + newJob.timeLimit; //jobTimes are calculated from a count down
-            jobs.push(newJob);
+        let seasonEvent = seasonEventGenerator[nextSeasonInfo.name]();
+        if(seasonEvent) {
+            seasonEvent.seasonStartTime = jobTimes[i];
+            seasonEvent.completionTime = (currentTime + ((60 * 1000) - jobTimes[i])) + seasonEvent.timeLimit; //jobTimes are calculated from a count down
+            jobs.push(seasonEvent);
         }
     }
     return {
@@ -48,13 +48,13 @@ function determineNumberOfJobs(season) {
 }
 
 let CARD_ID = 1;
-const jobGeneratorMap = {
-    [seasons.SPRING.name]: springJobGenerator,
-    [seasons.SUMMER.name]: summerJobGenerator,
-    [seasons.AUTUMN.name]: autumnJobGenerator,
-    [seasons.WINTER.name]: winterJobGenerator
+const seasonEventGenerator = {
+    [seasons.SPRING.name]: springEventGenerator,
+    [seasons.SUMMER.name]: summerEventGenerator,
+    [seasons.AUTUMN.name]: autumnEventGenerator,
+    [seasons.WINTER.name]: winterEventGenerator
 };
-function springJobGenerator(statusEffects) {
+function springEventGenerator(statusEffects) {
     const jobId = CARD_ID++; // TODO: probably change to UUID
     return {
         type: CARD_TYPE_JOB,
@@ -84,25 +84,28 @@ function springJobGenerator(statusEffects) {
         ]
     };
 }
-function summerJobGenerator(statusEffects) {
-    // const jobId = CARD_ID++; // TODO : UUID?
-    // return {
-    //     type: CARD_TYPE_JOB,
-    //     jobType: 'buy',
-    //     name: 'Adventurer selling goods',
-    //     description: 'An adventurer has arrived at your shop to off load some of what she found on her quests.',
-    //     basePay: 0,
-    //     timeLimit: 20 * 1000,
-    //     id: jobId,
-    //     position: 0,
-    //     extendedRequirements: [],
-    //     modifiers: []
-    // }
+function summerEventGenerator(statusEffects) {
+    return {
+        type: CARD_TYPE_TOOL,
+        name: 'Adventurer selling goods',
+        description: 'An adventurer has arrived at your shop to off load some of what she found on her quests.',
+        slots: [
+            { id: `buy_adventurer_${CARD_ID++}`, acceptedModifiers: [COPPER_BIT] },
+        ],
+        sold: {
+            id: CARD_ID++,
+            type: CARD_TYPE_ITEM,
+            position: 0,
+            name: 'Scythe',
+            description: 'Scythe',
+            modifiers: [FARM_TOOL]
+        },
+        timeLimit: 30 * 1000,
+    };
+}
+function autumnEventGenerator(statusEffects) {
     return null;
 }
-function autumnJobGenerator(statusEffects) {
-    return null;
-}
-function winterJobGenerator(statusEffects) {
+function winterEventGenerator(statusEffects) {
     return null;
 }
