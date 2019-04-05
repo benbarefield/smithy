@@ -54,7 +54,7 @@ function signalMap(timeTracker, season, addCard, selectedCard) {
         }
     });
 
-    // setTimeout(() => {
+    setTimeout(() => {
         addCard.next({
             id: 'TOOL_ANVIL',
             name: 'Anvil',
@@ -81,7 +81,7 @@ function signalMap(timeTracker, season, addCard, selectedCard) {
             position: 0,
             dataSelector: dataMap => dataMap.jobDelivery
         });
-    // },1);
+    },1);
 
     return { selectedCard };
 }
