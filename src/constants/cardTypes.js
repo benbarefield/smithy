@@ -4,3 +4,4 @@ export let CARD_TYPE_TOOL = "TOOL";
 
 export let TOOL_ANVIL = 'Anvil';
 export let TOOL_JOB_DELIVERY = 'Job Delivery';
+export let TOOL_PURCHASE = 'Purchase from adventurer';

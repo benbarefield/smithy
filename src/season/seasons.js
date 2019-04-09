@@ -1,5 +1,6 @@
-import {CARD_TYPE_JOB, CARD_TYPE_ITEM} from '../constants/cardTypes';
+import {CARD_TYPE_JOB, CARD_TYPE_ITEM, CARD_TYPE_TOOL, TOOL_PURCHASE} from '../constants/cardTypes';
 import {CASH, COPPER_BIT, FARM_TOOL, MISSHAPEN} from "../constants/cardModifiers";
+import {map} from 'rxjs/operators';
 
 const seasons = {
     'SPRING': { name: 'Spring', className: 'spring' },
@@ -85,12 +86,16 @@ function springEventGenerator(statusEffects) {
     };
 }
 function summerEventGenerator(statusEffects) {
+    let id = CARD_ID++;
     return {
+        id,
         type: CARD_TYPE_TOOL,
+        toolType: TOOL_PURCHASE,
         name: 'Adventurer selling goods',
         description: 'An adventurer has arrived at your shop to off load some of what she found on her quests.',
+        position: 0,
         slots: [
-            { id: `buy_adventurer_${CARD_ID++}`, acceptedModifiers: [COPPER_BIT] },
+            { id: `buy_adventurer_${id}`, acceptedModifiers: [COPPER_BIT] },
         ],
         sold: {
             id: CARD_ID++,
@@ -101,6 +106,7 @@ function summerEventGenerator(statusEffects) {
             modifiers: [FARM_TOOL]
         },
         timeLimit: 30 * 1000,
+        dataSelector: dataMap => {}
     };
 }
 function autumnEventGenerator(statusEffects) {

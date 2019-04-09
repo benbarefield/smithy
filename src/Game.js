@@ -28,8 +28,8 @@ class Game extends React.Component {
                 <Season/>
                 <Cards/>
                 <div className='details'>
-                    <CardDetails/>
                     <ToolDetails/>
+                    <CardDetails/>
                 </div>
                 <Footer/>
             </div>
@@ -47,10 +47,10 @@ function signalMap(timeTracker, season, addCard, selectedCard) {
     season.pipe(
         map(season => season.jobs.reduce((currentJob, job) => job.seasonStartTime > season.time ? job : currentJob, null)),
         distinct()
-    ).subscribe(job => {
-        if(job) {
-            addCard.next(job);
-            job.associatedCards.forEach(c => addCard.next(c));
+    ).subscribe(event => {
+        if(event) {
+            addCard.next(event);
+            event.associatedCards && event.associatedCards.forEach(c => addCard.next(c));
         }
     });
 
@@ -71,6 +71,7 @@ function signalMap(timeTracker, season, addCard, selectedCard) {
             dataSelector: dataMap => dataMap.anvil
         });
         addCard.next({
+            id: 'TOOL_DELIVERY',
             name: 'Delivery',
             description: "Deliver the fruits of your labor",
             slots: [

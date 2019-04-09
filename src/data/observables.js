@@ -1,8 +1,8 @@
-import { combineLatest, concat, from, fromEvent, merge } from "rxjs";
+import {combineLatest, concat, from, fromEvent, merge, Subject} from "rxjs";
 import { map, scan, share } from "rxjs/operators";
 import { nextSeason } from '../season/seasons';
 import {COPPER_BIT, MISSHAPEN} from "../constants/cardModifiers";
-import {TOOL_ANVIL, TOOL_JOB_DELIVERY} from "../constants/cardTypes";
+import {TOOL_ANVIL, TOOL_JOB_DELIVERY, TOOL_PURCHASE} from "../constants/cardTypes";
 
 export let whichKeyUp = () =>
     concat(from([false]), fromEvent(window, 'keyup'))
@@ -41,9 +41,9 @@ export let season = dataMap =>
         return Object.assign({}, data, {time : remaining});
     }, nextSeason()), share());
 
-// required observables: timeData, addCard, removeCard, moveCard
+// required observables: timeData, addCard, removeCard, moveCard, startTool
 export let cards = dataMap =>
-    merge(dataMap.timeData, dataMap.addCard, dataMap.removeCard, dataMap.moveCard, dataMap.purchaseFromAdventurer)
+    merge(dataMap.timeData, dataMap.addCard, dataMap.removeCard, dataMap.moveCard, dataMap.startTool)
     .pipe(scan((cards, action) => {
         if(action.type === 'add')
             return cards.concat(action.cardData);
@@ -53,6 +53,9 @@ export let cards = dataMap =>
             return cards.map(c => c.id === action.cardId ? Object.assign(c, {position: action.position}) : c);
         if(action.type === 'purchase') {
             return cards.filter(c => action.payment.indexOf(c) < 0).concat(action.details.sold);
+        }
+        if(action.selectedTool && action.selectedTool.toolType === TOOL_PURCHASE) {
+            return cards.filter(c => c !== action.selectedTool).concat(action.selectedTool.sold);
         }
         if(action.total) {
             return cards.filter(c => !c.completionTime || c.completionTime >= action.total); // TODO: can't use total time so card doesn't lose time in tool slot
