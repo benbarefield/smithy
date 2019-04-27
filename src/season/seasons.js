@@ -1,6 +1,6 @@
-import {CARD_TYPE_JOB, CARD_TYPE_ITEM, CARD_TYPE_TOOL, TOOL_PURCHASE} from '../constants/cardTypes';
-import {CASH, COPPER_BIT, FARM_TOOL, MISSHAPEN} from "../constants/cardModifiers";
-import {map} from 'rxjs/operators';
+import UUID from 'uuid/v4';
+import {CARD_TYPE_ITEM, CARD_TYPE_JOB, CARD_TYPE_TOOL, TOOL_PURCHASE} from '../constants/cardTypes';
+import {CASH, COPPER_BIT, DECONSTRUCTABLE, FARM_TOOL, IRON, MISSHAPEN, WOOD} from "../constants/cardModifiers";
 
 const seasons = {
     'SPRING': { name: 'Spring', className: 'spring' },
@@ -48,7 +48,6 @@ function determineNumberOfJobs(season) {
     return 1;
 }
 
-let CARD_ID = 1;
 const seasonEventGenerator = {
     [seasons.SPRING.name]: springEventGenerator,
     [seasons.SUMMER.name]: summerEventGenerator,
@@ -56,14 +55,13 @@ const seasonEventGenerator = {
     [seasons.WINTER.name]: winterEventGenerator
 };
 function springEventGenerator(statusEffects) {
-    const jobId = CARD_ID++; // TODO: probably change to UUID
     return {
         type: CARD_TYPE_JOB,
         jobType: 'repair',
         name: 'Repair job',
         description: 'Fix a Scythe',
         timeLimit: 120 * 1000,
-        id: jobId,
+        id: UUID(),
         position: 0,
         extendedRequirements: [
             { acceptedModifiers: [FARM_TOOL], rejectedModifiers: [MISSHAPEN], id: 'job_return_1' } // maybe need to link the tool to the job with a modifier? also slot id here is awkward
@@ -71,22 +69,22 @@ function springEventGenerator(statusEffects) {
         modifiers: [],
         associatedCards: [
             {
-                id: CARD_ID++,
+                id: UUID(),
                 type: CARD_TYPE_ITEM,
                 position: 0,
                 name: 'Scythe',
                 description: 'Scythe',
-                modifiers: [FARM_TOOL, MISSHAPEN]
+                modifiers: [FARM_TOOL, MISSHAPEN, WOOD, IRON, DECONSTRUCTABLE],
             }
         ],
         pay: [
-            { id: CARD_ID++, type: CARD_TYPE_ITEM, position: 0, name: 'Copper Bit', description: 'A copper bit', modifiers: [CASH, COPPER_BIT] },
-            { id: CARD_ID++, type: CARD_TYPE_ITEM, position: 0, name: 'Copper Bit', description: 'A copper bit', modifiers: [CASH, COPPER_BIT] }
+            { id: UUID(), type: CARD_TYPE_ITEM, position: 0, name: 'Copper Bit', description: 'A copper bit', modifiers: [CASH, COPPER_BIT] },
+            { id: UUID(), type: CARD_TYPE_ITEM, position: 0, name: 'Copper Bit', description: 'A copper bit', modifiers: [CASH, COPPER_BIT] }
         ]
     };
 }
 function summerEventGenerator(statusEffects) {
-    let id = CARD_ID++;
+    let id = UUID();
     return {
         id,
         type: CARD_TYPE_TOOL,
@@ -98,7 +96,7 @@ function summerEventGenerator(statusEffects) {
             { id: `buy_adventurer_${id}`, acceptedModifiers: [COPPER_BIT] },
         ],
         sold: {
-            id: CARD_ID++,
+            id: UUID(),
             type: CARD_TYPE_ITEM,
             position: 0,
             name: 'Scythe',

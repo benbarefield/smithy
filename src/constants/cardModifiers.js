@@ -22,3 +22,19 @@ export const COPPER_BIT = {
     description: 'Worth the least of all the currency types',
     className: 'modifier__copper-bit'
 };
+
+export const DECONSTRUCTABLE = {
+    description: 'Able to be reduced into its component parts',
+    className: 'modifier__deconstructable',
+}
+
+// resources
+export const WOOD = {
+    description: 'Has a wood component',
+    className: 'modifier__wood'
+};
+
+export const IRON = {
+    description: 'Has an iron component',
+    className: 'modifier__iron'
+};

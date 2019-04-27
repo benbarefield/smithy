@@ -2,7 +2,8 @@ import {combineLatest, concat, from, fromEvent, merge, Subject} from "rxjs";
 import { map, scan, share } from "rxjs/operators";
 import { nextSeason } from '../season/seasons';
 import {COPPER_BIT, MISSHAPEN} from "../constants/cardModifiers";
-import {TOOL_ANVIL, TOOL_JOB_DELIVERY, TOOL_PURCHASE} from "../constants/cardTypes";
+import {TOOL_ANVIL, TOOL_DECONSTRUCTOR, TOOL_JOB_DELIVERY, TOOL_PURCHASE} from "../constants/cardTypes";
+import deconstructor from "../tools/deconstructor";
 
 export let whichKeyUp = () =>
     concat(from([false]), fromEvent(window, 'keyup'))
@@ -51,11 +52,14 @@ export let cards = dataMap =>
             return cards.filter(c => c !== action.cardData);
         if(action.type === 'move')
             return cards.map(c => c.id === action.cardId ? Object.assign(c, {position: action.position}) : c);
-        if(action.type === 'purchase') {
-            return cards.filter(c => action.payment.indexOf(c) < 0).concat(action.details.sold);
-        }
+        // if(action.type === 'purchase') {
+        //     return cards.filter(c => action.payment.indexOf(c) < 0).concat(action.details.sold);
+        // }
         if(action.selectedTool && action.selectedTool.toolType === TOOL_PURCHASE) {
             return cards.filter(c => c !== action.selectedTool).concat(action.selectedTool.sold);
+        }
+        if(action.selectedTool && action.selectedTool.toolType === TOOL_DECONSTRUCTOR) {
+            return cards.filter(c => action.slottedCards.indexOf(c) < 0).concat(deconstructor(action.slottedCards[0]));
         }
         if(action.total) {
             return cards.filter(c => !c.completionTime || c.completionTime >= action.total); // TODO: can't use total time so card doesn't lose time in tool slot

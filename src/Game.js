@@ -6,8 +6,8 @@ import ToolDetails from './details/ToolDetails';
 import rxWrapper from "./rxWrapper";
 import {map, distinct} from "rxjs/operators";
 import Footer from "./footer/Footer";
-import {MISSHAPEN} from "./constants/cardModifiers";
-import {CARD_TYPE_JOB, CARD_TYPE_TOOL, TOOL_ANVIL, TOOL_JOB_DELIVERY} from "./constants/cardTypes";
+import {DECONSTRUCTABLE, MISSHAPEN} from "./constants/cardModifiers";
+import {CARD_TYPE_JOB, CARD_TYPE_TOOL, TOOL_ANVIL, TOOL_DECONSTRUCTOR, TOOL_JOB_DELIVERY} from "./constants/cardTypes";
 
 class Game extends React.Component {
     constructor(props) {
@@ -81,6 +81,18 @@ function signalMap(timeTracker, season, addCard, selectedCard) {
             toolType: TOOL_JOB_DELIVERY,
             position: 0,
             dataSelector: dataMap => dataMap.jobDelivery
+        });
+        addCard.next({
+            id: 'TOOL_DECONSTRUCTOR',
+            name: 'Deconstructor',
+            description: "Breaks something into its component parts and vomits the remaining resources",
+            slots: [
+                { id: 'deconstructor_slot_1', acceptedModifiers: [DECONSTRUCTABLE] },
+            ],
+            type: CARD_TYPE_TOOL,
+            toolType: TOOL_DECONSTRUCTOR,
+            position: 0,
+            dataSelector: dataMap => {}
         });
     },1);
 

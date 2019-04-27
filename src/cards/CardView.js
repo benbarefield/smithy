@@ -2,11 +2,12 @@ import React from 'react';
 import Item from './ItemView';
 import Job from './JobView';
 import Tool from './ToolView';
-import {CARD_TYPE_JOB, CARD_TYPE_ITEM, CARD_TYPE_TOOL} from '../constants/cardTypes';
+import {CARD_TYPE_JOB, CARD_TYPE_ITEM, CARD_TYPE_TOOL, CARD_TYPE_RESOURCE} from '../constants/cardTypes';
 
 const views = {
     [CARD_TYPE_JOB]: Job,
     [CARD_TYPE_ITEM]: Item,
+    [CARD_TYPE_RESOURCE]: Item,
     [CARD_TYPE_TOOL]: Tool
 };
 
